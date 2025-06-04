@@ -8,9 +8,9 @@ interface IProdotto {
     id: number,
     taglia: string,
     colore: string,
-    stato: string,
+    stato: Stato,
 
-    assegnaCliente(cliente: Cliente): void;
+    assegnaCliente(cliente: ICliente): void;
 }
 
 interface ICliente {
@@ -19,15 +19,15 @@ interface ICliente {
     email: string,
     metodoDiPagamento: string,
 
-    ordinaProdotto(prodotto: Prodotto) : void;
+    ordinaProdotto(prodotto: IProdotto) : void;
 }
 
 interface IProcessoProduzione {
     nomeProcesso: string,
     descrizione: string,
-    prodottiInProduzione: IProdotto[],
+    prodottiInProduzione: string[]
 
-    aggiungiProdotto(prodotto: Prodotto) : void
+    aggiungiProdotto(prodotto: IProdotto) : void
 }
 
 
@@ -40,14 +40,13 @@ class Prodotto implements IProdotto {
     id: number;
     taglia: string;
     colore: string;
-    stato: string;
-
+    stato: Stato
     constructor (
         tipo : string,
         id: number,
         taglia: string,
         colore: string,
-        stato: string,
+        stato: Stato,
     ) {
         this.tipo = tipo;
         this.id = id;
@@ -55,7 +54,7 @@ class Prodotto implements IProdotto {
         this.colore = colore;
         this.stato = stato;};
 
-    assegnaCliente(cliente: Cliente): void {
+    assegnaCliente(cliente: ICliente): void {
         console.log(`${this.tipo} assegnato a ${cliente.nome}`)
     }
 }     
@@ -79,7 +78,7 @@ class Cliente implements ICliente {
         this.metodoDiPagamento = metodoDiPagamento;
        }
 
-       ordinaProdotto(prodotto: Prodotto): void {
+       ordinaProdotto(prodotto: IProdotto): void {
            if (prodotto.stato == Stato.DISPONIBILE)
             {console.log(`il prodotto  ${prodotto.id} è stato ordinato`)}
            else {
@@ -92,41 +91,44 @@ class ProcessoProduzione implements IProcessoProduzione {
 
     nomeProcesso: string;
     descrizione: string;
-    prodottiInProduzione: IProdotto[];
+    prodottiInProduzione: string[]
 
     constructor(
         nomeProcesso: string,
         descrizione: string,
-        prodottiInProduzione: IProdotto[],
+        prodottiInProduzione: string[],
     ) {
         this.nomeProcesso = nomeProcesso;
         this.descrizione = descrizione;
         this.prodottiInProduzione = prodottiInProduzione;
     }
 
-    aggiungiProdotto(prodotto: Prodotto): void {
-        console.log (`${this.nomeProcesso} è stato aggiunto per produrre ${prodotto.tipo}`)
+    aggiungiProdotto(prodotto: IProdotto): void {
+        this.prodottiInProduzione.push(prodotto.tipo);
+       
+        console.log(`${this.nomeProcesso} è stato aggiunto per produrre ${prodotto.tipo}`);
+        console.log(this.prodottiInProduzione)
     }
 }
 
 
 // Creazione instanze:
 
-const prodotto1 = new Prodotto ('bikini', 34567, 'S', 'nero', 'disponibile');
-const prodotto2 = new Prodotto ('telo', 12345, 'M', 'blu', 'disponibile');
-const prodotto3 = new Prodotto ('slip', 45879, 'L', 'verde', 'esaurito');
-const prodotto4 = new Prodotto ('top', 25794, 'S', 'viola', 'disponibile');
+const prodotto1 = new Prodotto ('bikini', 34567, 'S', 'nero', Stato.DISPONIBILE);
+const prodotto2 = new Prodotto ('telo', 12345, 'M', 'blu', Stato.DISPONIBILE);
+const prodotto3 = new Prodotto ('slip', 45879, 'L', 'verde', Stato.ESAURITO);
+const prodotto4 = new Prodotto ('top', 25794, 'S', 'viola', Stato.DISPONIBILE);
 
 const cliente1 = new Cliente ('Giogia', 'Rossi', 'evevw@wevuwen', 'Bonifico');
 const cliente2 = new Cliente ('Paolo', 'Verdi', 'evevw@wevuwen', 'Carta di credito');
 const cliente3 = new Cliente ('Luca', 'Neri', 'evevw@wevuwen', 'Bonifico');
 const cliente4 = new Cliente ('Maria', 'Rossi', 'evevw@wevuwen', 'Bonifico');
 
-const processo1 = new ProcessoProduzione ('produzione bikini', 'sportivo', [prodotto1, prodotto2, prodotto3] )
+const processo1 = new ProcessoProduzione ('produzione', 'sportivo', [prodotto1.tipo, prodotto2.tipo, prodotto3.tipo] )
 
 
 // test
 
 prodotto1.assegnaCliente(cliente1);
-cliente2.ordinaProdotto(prodotto3);
-processo1.aggiungiProdotto(prodotto2)
+cliente2.ordinaProdotto(prodotto1);
+processo1.aggiungiProdotto(prodotto4)
