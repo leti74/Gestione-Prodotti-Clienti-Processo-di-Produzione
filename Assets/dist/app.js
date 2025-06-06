@@ -1,58 +1,7 @@
-"use strict";
-var Stato;
-(function (Stato) {
-    Stato["DISPONIBILE"] = "disponibile";
-    Stato["ESAURITO"] = "esaurito";
-})(Stato || (Stato = {}));
-// Creazioni classi:
-class Prodotto {
-    constructor(tipo, id, taglia, colore, stato) {
-        this.tipo = tipo;
-        this.id = id;
-        this.taglia = taglia;
-        this.colore = colore;
-        this.stato = stato;
-    }
-    ;
-    assegnaCliente(cliente) {
-        if (this.stato == Stato.DISPONIBILE) {
-            this.stato = Stato.ESAURITO;
-            console.log(`${this.tipo}: ${this.id}, assegnato a ${cliente.nome}`);
-        }
-        else {
-            console.log(`il prodotto  ${this.tipo}: ${this.id}, è stato ordinato da ${cliente.nome}`);
-        }
-    }
-}
-class Cliente {
-    constructor(nome, cognome, email, metodoDiPagamento) {
-        this.nome = nome;
-        this.cognome = cognome;
-        this.email = email;
-        this.metodoDiPagamento = metodoDiPagamento;
-    }
-    ordinaProdotto(prodotto) {
-        if (prodotto.stato == Stato.DISPONIBILE) {
-            prodotto.stato = Stato.ESAURITO;
-            console.log(`il prodotto  ${prodotto.tipo}: ${prodotto.id}, è stato ordinato da ${this.nome}`);
-        }
-        else {
-            console.log(`il prodotto: ${prodotto.tipo} ${prodotto.id} non è disponibile`);
-        }
-    }
-}
-class ProcessoProduzione {
-    constructor(nomeProcesso, descrizione, prodottiInProduzione) {
-        this.nomeProcesso = nomeProcesso;
-        this.descrizione = descrizione;
-        this.prodottiInProduzione = prodottiInProduzione;
-    }
-    aggiungiProdotto(prodotto) {
-        this.prodottiInProduzione.push(prodotto);
-        console.log(`${this.nomeProcesso} è stato aggiunto per produrre l'articolo  ${prodotto.tipo}: ${prodotto.id}`);
-        console.log(this.prodottiInProduzione);
-    }
-}
+import { Stato } from './interfacce/IProdotto.js';
+import { Prodotto } from './classi/Prodotto.js';
+import { Cliente } from './classi/Cliente.js';
+import { ProcessoProduzione } from './classi/ProcessoProduzione.js';
 // Creazione oggetti:
 const prodotto1 = new Prodotto('bikini', 34567, 'S', 'nero', Stato.DISPONIBILE);
 const prodotto2 = new Prodotto('telo', 12345, 'M', 'blu', Stato.DISPONIBILE);
