@@ -15,7 +15,13 @@ class Prodotto {
     }
     ;
     assegnaCliente(cliente) {
-        console.log(`${this.tipo} assegnato a ${cliente.nome}`);
+        if (this.stato == Stato.DISPONIBILE) {
+            this.stato = Stato.ESAURITO;
+            console.log(`${this.tipo}: ${this.id}, assegnato a ${cliente.nome}`);
+        }
+        else {
+            console.log(`il prodotto  ${this.tipo}: ${this.id}, è stato ordinato da ${cliente.nome}`);
+        }
     }
 }
 class Cliente {
@@ -27,10 +33,11 @@ class Cliente {
     }
     ordinaProdotto(prodotto) {
         if (prodotto.stato == Stato.DISPONIBILE) {
-            console.log(`il prodotto  ${prodotto.id} è stato ordinato`);
+            prodotto.stato = Stato.ESAURITO;
+            console.log(`il prodotto  ${prodotto.tipo}: ${prodotto.id}, è stato ordinato da ${this.nome}`);
         }
         else {
-            console.log('prodotto non disponibile');
+            console.log(`il prodotto: ${prodotto.tipo} ${prodotto.id} non è disponibile`);
         }
     }
 }
@@ -41,22 +48,23 @@ class ProcessoProduzione {
         this.prodottiInProduzione = prodottiInProduzione;
     }
     aggiungiProdotto(prodotto) {
-        this.prodottiInProduzione.push(prodotto.tipo);
-        console.log(`${this.nomeProcesso} è stato aggiunto per produrre ${prodotto.tipo}`);
+        this.prodottiInProduzione.push(prodotto);
+        console.log(`${this.nomeProcesso} è stato aggiunto per produrre l'articolo  ${prodotto.tipo}: ${prodotto.id}`);
         console.log(this.prodottiInProduzione);
     }
 }
-// Creazione instanze:
+// Creazione oggetti:
 const prodotto1 = new Prodotto('bikini', 34567, 'S', 'nero', Stato.DISPONIBILE);
 const prodotto2 = new Prodotto('telo', 12345, 'M', 'blu', Stato.DISPONIBILE);
 const prodotto3 = new Prodotto('slip', 45879, 'L', 'verde', Stato.ESAURITO);
 const prodotto4 = new Prodotto('top', 25794, 'S', 'viola', Stato.DISPONIBILE);
-const cliente1 = new Cliente('Giogia', 'Rossi', 'evevw@wevuwen', 'Bonifico');
-const cliente2 = new Cliente('Paolo', 'Verdi', 'evevw@wevuwen', 'Carta di credito');
-const cliente3 = new Cliente('Luca', 'Neri', 'evevw@wevuwen', 'Bonifico');
-const cliente4 = new Cliente('Maria', 'Rossi', 'evevw@wevuwen', 'Bonifico');
-const processo1 = new ProcessoProduzione('produzione', 'sportivo', [prodotto1.tipo, prodotto2.tipo, prodotto3.tipo]);
+const cliente1 = new Cliente('Giogia', 'Rossi', 'evevw@wev23owen', 'Bonifico');
+const cliente2 = new Cliente('Paolo', 'Verdi', 'evevw@wd3uwen', 'Carta di credito');
+const cliente3 = new Cliente('Luca', 'Neri', 'evevw@wevu3rcjoen', 'Bonifico');
+const cliente4 = new Cliente('Maria', 'Rossi', 'evevw@wev3rcnuwen', 'Bonifico');
+const processoArticoliSportivi = new ProcessoProduzione('produzione di articoli sportivi', 'sportivo', [prodotto1, prodotto2, prodotto3]);
 // test
 prodotto1.assegnaCliente(cliente1);
 cliente2.ordinaProdotto(prodotto1);
-processo1.aggiungiProdotto(prodotto4);
+cliente3.ordinaProdotto(prodotto2);
+processoArticoliSportivi.aggiungiProdotto(prodotto4);
