@@ -21,22 +21,22 @@ Per utilizzare il progetto, bisogna seguire questi passaggi:
 ## Configurazione
 
 5. Creare una cartella con all'interno il file "app.ts"
-6. eseguire nel terminale di visual studio code il comando: tsc app.ts.
+6. Eseguire nel terminale di visual studio code il comando: tsc app.ts.
 
 ## Procedimento
 
 ### **Enum Stato**
+
+Creiamo un enum che aiuta a evitare errori nell'assegnazione di stati ai prodotti:
 
 enum Stato {
 DISPONIBILE = 'disponibile',
 ESAURITO = 'esaurito'
 }
 
-Questa struttura aiuta a evitare errori nell'assegnazione di stati ai prodotti.
-
 ### **Interfacce**
 
-Abbiamo tre interfacce:
+Definiamo tre interfacce:
 
 -IProdotto: definisce le proprietà e il metodo assegnaCliente().
 -ICliente: definisce le proprietà del cliente e il metodo ordinaProdotto().
@@ -44,25 +44,25 @@ Abbiamo tre interfacce:
 
 ### **Classi e Implementazione**
 
-Le classi Prodotto, Cliente e ProcessoProduzione implementano le rispettive interfacce.
+Implementiamo le classi Prodotto, Cliente e ProcessoProduzione che a loro volta implementano le rispettive interfacce.
 
-### **Classi e Implementazione**
+### **instanze**
+
+Creiamo le instanze per generare un prodotto, un cliente e un processo di produzione:
 
 const prodotto1 = new Prodotto ('bikini', 34567, 'S', 'nero', Stato.DISPONIBILE);
 const cliente1 = new Cliente ('Giogia', 'Rossi', 'evevw@wev23owen', 'Bonifico');
 const processoArticoliSportivi = new ProcessoProduzione ('produzione di articoli sportivi', 'sportivo', [prodotto1, prodotto2, prodotto3]);
 
-Qui creiamo un prodotto, un cliente e un processo di produzione.
-
 ### **Esecuzione delle funzionalità**
+
+Verifichiamo il comportamento del sistema associando un prodotto a un cliente con assegnaCliente, permettendo ai clienti di ordinare prodotti con ordinaProdotto e aggiungendo nuovi articoli alla produzione con aggiungiProdotto.
 
 prodotto1.assegnaCliente(cliente1);
 cliente2.ordinaProdotto(prodotto1);
 cliente3.ordinaProdotto(prodotto2);
 processoArticoliSportivi.aggiungiProdotto(prodotto4);
 
-verifichiamo il comportamento del sistema associando un prodotto a un cliente con assegnaCliente, permettendo ai clienti di ordinare prodotti con ordinaProdotto e aggiungendo nuovi articoli alla produzione con aggiungiProdotto.
-
 ## Link App
 
-https://leti74.github.io/category-book-finder/
+https://leti74.github.io/Gestione-Prodotti-Clienti-Processo-di-Produzione/
